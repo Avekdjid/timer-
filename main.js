@@ -6,6 +6,8 @@ const btn90 = document.querySelector(".min__90");
 const btn60 = document.querySelector(".min__60");
 const btn30 = document.querySelector(".min__30");
 
+const audio = document.querySelector(".audio");
+
 let timer;
 let totalTimeInSeconds = 0;
 
@@ -14,12 +16,14 @@ function startTimer(minutes) {
   updateTimerDisplay();
 
   timer = setInterval(function () {
-    if (totalTimeInSeconds <= 0) {
-      clearInterval(timer);
-      alert("Timer completed!");
-    } else {
-      totalTimeInSeconds--;
-      updateTimerDisplay();
+    if (isPageVisible) {
+      if (totalTimeInSeconds <= 0) {
+        clearInterval(timer);
+        finishAlarm();
+      } else {
+        totalTimeInSeconds--;
+        updateTimerDisplay();
+      }
     }
   }, 1000);
 }
@@ -32,6 +36,10 @@ function updateTimerDisplay() {
   hours.textContent = padZero(hrs);
   minutes.textContent = padZero(mins);
   seconds.textContent = padZero(secs);
+}
+
+function finishAlarm() {
+  audio.play();
 }
 
 function padZero(value) {
@@ -50,5 +58,14 @@ btn60.addEventListener("click", function () {
 
 btn30.addEventListener("click", function () {
   clearInterval(timer);
-  startTimer(30);
+  startTimer(0.1);
 });
+
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "visible") {
+    isPageVisible = true;
+  } else {
+    isPageVisible = true;
+  }
+});
+
