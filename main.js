@@ -16,14 +16,12 @@ function startTimer(minutes) {
   updateTimerDisplay();
 
   timer = setInterval(function () {
-    if (isPageVisible) {
-      if (totalTimeInSeconds <= 0) {
-        clearInterval(timer);
-        finishAlarm();
-      } else {
-        totalTimeInSeconds--;
-        updateTimerDisplay();
-      }
+    if (totalTimeInSeconds <= 0) {
+      clearInterval(timer);
+      finishAlarm();
+    } else {
+      totalTimeInSeconds--;
+      updateTimerDisplay();
     }
   }, 1000);
 }
@@ -58,14 +56,6 @@ btn60.addEventListener("click", function () {
 
 btn30.addEventListener("click", function () {
   clearInterval(timer);
-  startTimer(0.1);
-});
-
-document.addEventListener("visibilitychange", function () {
-  if (document.visibilityState === "visible") {
-    isPageVisible = true;
-  } else {
-    isPageVisible = true;
-  }
+  startTimer(30);
 });
 
