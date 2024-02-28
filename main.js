@@ -9,27 +9,32 @@ const btn30 = document.querySelector(".min__30");
 const audio = document.querySelector(".audio");
 
 let timer;
-let totalTimeInSeconds = 0;
+let endTime;
 
 function startTimer(minutes) {
-  totalTimeInSeconds = minutes * 60;
+  const now = new Date();
+  endTime = new Date(now.getTime() + minutes * 60 * 1000);
+
   updateTimerDisplay();
 
   timer = setInterval(function () {
-    if (totalTimeInSeconds <= 0) {
+    const currentTime = new Date();
+    if (currentTime >= endTime) {
       clearInterval(timer);
       finishAlarm();
     } else {
-      totalTimeInSeconds--;
       updateTimerDisplay();
     }
-  }, 1000);
+  }, 100);
 }
 
 function updateTimerDisplay() {
-  const hrs = Math.floor(totalTimeInSeconds / 3600);
-  const mins = Math.floor((totalTimeInSeconds % 3600) / 60);
-  const secs = totalTimeInSeconds % 60;
+  const currentTime = new Date();
+  const remainingTime = Math.max(0, endTime - currentTime) / 1000; // in seconds
+
+  const hrs = Math.floor(remainingTime / 3600);
+  const mins = Math.floor((remainingTime % 3600) / 60);
+  const secs = Math.floor(remainingTime % 60);
 
   hours.textContent = padZero(hrs);
   minutes.textContent = padZero(mins);
